@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 72" width="320" height="72" role="img" aria-label="DMP AI Digital Institute">
+  <defs>
+    <linearGradient id="aiGlow" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FF8A3D" />
+      <stop offset="100%" stop-color="#E5531B" />
+    </linearGradient>
+    <linearGradient id="badgeGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#252F48" />
+      <stop offset="100%" stop-color="#141B2D" />
+    </linearGradient>
+  </defs>
+
+  <!-- AI Symbol / Icon Badge -->
+  <g transform="translate(4, 6)">
+    <!-- Shield Icon Background -->
+    <rect x="0" y="0" width="60" height="60" rx="16" fill="url(#badgeGrad)" stroke="rgba(255,255,255,0.18)" stroke-width="1.5"/>
+    
+    <!-- AI Brain Node / Neural Graphic -->
+    <path d="M 30 14 L 44 23 L 44 38 L 30 47 L 16 38 L 16 23 Z" fill="none" stroke="url(#aiGlow)" stroke-width="2.5" stroke-linejoin="round"/>
+    <circle cx="30" cy="14" r="3.5" fill="#FFCA28"/>
+    <circle cx="44" cy="23" r="3" fill="#FF8A3D"/>
+    <circle cx="44" cy="38" r="3" fill="#E5531B"/>
+    <circle cx="30" cy="47" r="3.5" fill="#FFCA28"/>
+    <circle cx="16" cy="38" r="3" fill="#E5531B"/>
+    <circle cx="16" cy="23" r="3" fill="#FF8A3D"/>
+    <circle cx="30" cy="30.5" r="5" fill="url(#aiGlow)"/>
+    
+    <!-- Connecting Nodes -->
+    <line x1="30" y1="30.5" x2="30" y2="14" stroke="url(#aiGlow)" stroke-width="1.8"/>
+    <line x1="30" y1="30.5" x2="44" y2="23" stroke="url(#aiGlow)" stroke-width="1.8"/>
+    <line x1="30" y1="30.5" x2="44" y2="38" stroke="url(#aiGlow)" stroke-width="1.8"/>
+    <line x1="30" y1="30.5" x2="30" y2="47" stroke="url(#aiGlow)" stroke-width="1.8"/>
+    <line x1="30" y1="30.5" x2="16" y2="38" stroke="url(#aiGlow)" stroke-width="1.8"/>
+    <line x1="30" y1="30.5" x2="16" y2="23" stroke="url(#aiGlow)" stroke-width="1.8"/>
+  </g>
+
+  <!-- Brand Typography -->
+  <!-- "DMP" in bold white -->
+  <text x="76" y="44" fill="#FFFFFF" font-family="'Space Grotesk', 'DM Sans', system-ui, sans-serif" font-size="38" font-weight="800" letter-spacing="-1">DMP</text>
+  
+  <!-- "AI" Badge -->
+  <g transform="translate(178, 17)">
+    <rect x="0" y="0" width="42" height="26" rx="7" fill="url(#aiGlow)"/>
+    <text x="21" y="18" fill="#FFFFFF" font-family="'Space Grotesk', 'DM Sans', system-ui, sans-serif" font-size="16" font-weight="800" text-anchor="middle">AI</text>
+  </g>
+
+  <!-- "DIGITAL INSTITUTE" Subtitle -->
+  <text x="77" y="62" fill="#94A3B8" font-family="'DM Sans', system-ui, sans-serif" font-size="10.5" font-weight="700" letter-spacing="2.6">DIGITAL INSTITUTE</text>
+</svg>

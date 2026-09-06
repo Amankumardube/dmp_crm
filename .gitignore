@@ -1,0 +1,13 @@
+# Local configuration and environment files
+.env
+.env.*
+config/config.local.php
+
+# Runtime uploads and generated files
+uploads/*
+!uploads/.gitkeep
+
+# Operating system and editor files
+.DS_Store
+Thumbs.db
+.vscode/
