@@ -4,14 +4,14 @@
 // =====================================================
 
 // ---- Database settings (edit these for your server) ----
-define('DB_HOST', getenv('DB_HOST') ?: 'localhost');
-define('DB_PORT', getenv('DB_PORT') ?: '3306');
-define('DB_NAME', getenv('DB_NAME') ?: 'dmp_crm');
-define('DB_USER', getenv('DB_USER') ?: 'root');
-define('DB_PASS', getenv('DB_PASS') ?: '');
-define('DB_SSL_CA', getenv('DB_SSL_CA') ?: '');
 define('DB_DRIVER', strtolower(getenv('DB_DRIVER') ?: (getenv('DB_HOST') ? 'pgsql' : 'mysql')));
 define('DB_IS_POSTGRES', DB_DRIVER === 'pgsql' || DB_DRIVER === 'postgres');
+define('DB_HOST', getenv('DB_HOST') ?: 'localhost');
+define('DB_PORT', getenv('DB_PORT') ?: (DB_IS_POSTGRES ? '5432' : '3306'));
+define('DB_NAME', getenv('DB_NAME') ?: (DB_IS_POSTGRES ? 'postgres' : 'dmp_crm'));
+define('DB_USER', getenv('DB_USER') ?: (DB_IS_POSTGRES ? 'postgres' : 'root'));
+define('DB_PASS', getenv('DB_PASS') ?: '');
+define('DB_SSL_CA', getenv('DB_SSL_CA') ?: '');
 
 // ---- App settings ----
 define('APP_NAME', 'DMP AI Digital Institute CRM');
