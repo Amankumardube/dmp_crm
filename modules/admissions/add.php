@@ -63,7 +63,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 (admission_code, lead_id, student_name, phone, email, course_id, counselor_id, admission_date, total_fee, discount, status, id_proof_path, photo_path)
                 VALUES (?,?,?,?,?,?,?,?,?,?, 'pending-docs', ?, ?)");
             $stmt->execute([$admissionCode, $postedLeadId, $student_name, $phone, $email, $course_id, $counselor_id, $admission_date, $total_fee, $discount, $idProofPath, $photoPath]);
-            $admissionId = $pdo->lastInsertId();
+            $admissionId = db_last_insert_id('admissions');
 
             // Mark lead as converted
             if ($postedLeadId) {

@@ -114,7 +114,7 @@ if ($watiPhone !== '' && ($watiEvent === '' || str_contains($watiEvent, 'message
 
     $stmt = $pdo->prepare("INSERT INTO leads (name, phone, source, status) VALUES (?, ?, 'whatsapp', 'new')");
     $stmt->execute([trim((string)$watiName) ?: 'WATI Contact', $phone]);
-    echo json_encode(['success' => true, 'message' => 'WATI lead captured', 'lead_id' => $pdo->lastInsertId()]);
+    echo json_encode(['success' => true, 'message' => 'WATI lead captured', 'lead_id' => db_last_insert_id('leads')]);
     exit;
 }
 
@@ -144,6 +144,6 @@ if ($existing = $dup->fetch()) {
 
 $stmt = $pdo->prepare("INSERT INTO leads (name, phone, email, city, source, status) VALUES (?,?,?,?,?, 'new')");
 $stmt->execute([$name, $phone, $email, $city, $source]);
-$leadId = $pdo->lastInsertId();
+$leadId = db_last_insert_id('leads');
 
 echo json_encode(['success' => true, 'message' => 'Lead captured', 'lead_id' => $leadId]);

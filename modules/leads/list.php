@@ -20,7 +20,7 @@ if (!empty($_GET['source'])) {
 }
 $selectedMonth = $_GET['month'] ?? '';
 if (preg_match('/^\d{4}-\d{2}$/', $selectedMonth)) {
-  $where[] = "DATE_FORMAT(l.created_at, '%Y-%m') = ?";
+  $where[] = DB_IS_POSTGRES ? "TO_CHAR(l.created_at, 'YYYY-MM') = ?" : "DATE_FORMAT(l.created_at, '%Y-%m') = ?";
   $params[] = $selectedMonth;
 }
 $monthOptions = [];

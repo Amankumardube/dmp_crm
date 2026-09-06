@@ -32,7 +32,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $receiptNo = 'RCPT' . date('ymd') . strtoupper(substr(uniqid(), -5));
         $stmt = $pdo->prepare("INSERT INTO payments (admission_id, receipt_no, amount, mode, payment_date, remarks, created_by) VALUES (?,?,?,?,?,?,?)");
         $stmt->execute([$admissionId, $receiptNo, $amount, $mode, $payment_date, $remarks, current_user_id()]);
-        $paymentId = $pdo->lastInsertId();
+        $paymentId = db_last_insert_id('payments');
         log_activity($pdo, "Recorded payment $receiptNo (₹$amount) for admission #$admissionId");
         $_SESSION['flash_success'] = "Payment of ₹" . money($amount) . " recorded. Receipt: $receiptNo";
         header('Location: ../admissions/view.php?id=' . $admissionId);

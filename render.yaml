@@ -7,6 +7,8 @@ services:
     envVars:
       - key: DB_HOST
         sync: false
+      - key: DB_DRIVER
+        value: pgsql
       - key: DB_PORT
         value: "3306"
       - key: DB_NAME
@@ -14,8 +16,6 @@ services:
       - key: DB_USER
         sync: false
       - key: DB_PASS
-        sync: false
-      - key: DB_SSL_CA
         sync: false
       - key: APP_URL
         sync: false

@@ -63,7 +63,7 @@ DB_SSL_CA=/etc/secrets/aiven-ca.pem
 APP_URL=https://your-render-service.onrender.com
 ```
 
-Render does not provide a built-in MySQL database. Use an external MySQL-compatible provider and import `database/schema.sql` before opening the app. For Aiven, download its CA certificate, upload it as a secret file at `/etc/secrets/aiven-ca.pem`, and set `DB_SSL_CA` to that path. The free web service filesystem is ephemeral, so configure persistent storage or external object storage if uploaded documents must survive redeploys.
+For Supabase, set `DB_DRIVER=pgsql`, use the Supabase database host, port `5432`, database `postgres`, user `postgres`, and import `database/schema.supabase.sql` in the Supabase SQL Editor. The connection uses SSL automatically. The free web service filesystem is ephemeral, so configure persistent storage or external object storage if uploaded documents must survive redeploys.
 
 ## 4. First Steps After Login
 1. Go to **Courses** → add your actual courses, durations, and fees.

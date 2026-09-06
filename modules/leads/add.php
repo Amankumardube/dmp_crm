@@ -30,7 +30,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $stmt = $pdo->prepare("INSERT INTO leads (name, phone, email, city, source, course_id, assigned_to, created_by, status)
                                     VALUES (?,?,?,?,?,?,?,?,'new')");
             $stmt->execute([$name, $phone, $email, $city, $source, $course_id, $assigned_to, current_user_id()]);
-            $leadId = $pdo->lastInsertId();
+            $leadId = db_last_insert_id('leads');
             log_activity($pdo, "Added lead #$leadId ($name)");
             $_SESSION['flash_success'] = 'Lead added successfully.';
             header('Location: view.php?id=' . $leadId);

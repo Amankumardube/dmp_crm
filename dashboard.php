@@ -5,6 +5,8 @@ require_login();
 
 $role = current_user_role();
 $uid  = current_user_id();
+$todayExpression = DB_IS_POSTGRES ? 'CURRENT_DATE' : 'CURDATE()';
+$monthExpression = DB_IS_POSTGRES ? "TO_CHAR(%s, 'YYYY-MM')" : "DATE_FORMAT(%s, '%%Y-%%m')";
 
 // Base WHERE clause: counselors only see their own leads
 $leadWhere = '';
@@ -25,7 +27,7 @@ $stmt->execute($params);
 $converted = $stmt->fetchColumn();
 
 // KPI: today's follow-ups
-$fuWhere = "WHERE DATE(f.follow_up_date) = CURDATE() AND f.status='pending'";
+$fuWhere = "WHERE DATE(f.follow_up_date) = $todayExpression AND f.status='pending'";
 $fuParams = [];
 if (is_counselor()) {
     $fuWhere .= " AND l.assigned_to = ?";
@@ -38,7 +40,7 @@ $todayFollowupSql = "SELECT f.follow_up_date, f.remarks, l.name AS lead_name, l.
   FROM follow_ups f
   JOIN leads l ON l.id = f.lead_id
   LEFT JOIN users u ON u.id = l.assigned_to
-  WHERE DATE(f.follow_up_date) = CURDATE() AND f.status = 'pending'";
+  WHERE DATE(f.follow_up_date) = $todayExpression AND f.status = 'pending'";
 $todayFollowupParams = [];
 if (is_counselor()) {
     $todayFollowupSql .= ' AND l.assigned_to = ?';
@@ -96,7 +98,8 @@ for ($month = 0; $month < 12; $month++) {
 $chartStart = new DateTime('first day of -11 months');
 $chartStart->setTime(0, 0, 0);
 $monthlyPaymentScope = is_counselor() ? 'AND a.counselor_id = ?' : '';
-$monthlyStmt = $pdo->prepare("SELECT DATE_FORMAT(p.payment_date, '%Y-%m') AS payment_month, COALESCE(SUM(p.amount), 0) AS total
+$monthlyPaymentExpression = sprintf($monthExpression, 'p.payment_date');
+$monthlyStmt = $pdo->prepare("SELECT $monthlyPaymentExpression AS payment_month, COALESCE(SUM(p.amount), 0) AS total
   FROM payments p JOIN admissions a ON a.id = p.admission_id
   WHERE p.payment_date >= ? $monthlyPaymentScope
   GROUP BY payment_month ORDER BY payment_month");
@@ -130,7 +133,8 @@ for ($month = 0; $month < 12; $month++) {
 $leadChartStart = new DateTime('first day of -11 months');
 $leadChartStart->setTime(0, 0, 0);
 $monthlyLeadScope = is_counselor() ? 'AND assigned_to = ?' : '';
-$monthlyLeadStmt = $pdo->prepare("SELECT DATE_FORMAT(created_at, '%Y-%m') AS lead_month, COUNT(*) AS total
+$monthlyLeadExpression = sprintf($monthExpression, 'created_at');
+$monthlyLeadStmt = $pdo->prepare("SELECT $monthlyLeadExpression AS lead_month, COUNT(*) AS total
   FROM leads WHERE created_at >= ? $monthlyLeadScope
   GROUP BY lead_month ORDER BY lead_month");
 $monthlyLeadStmt->execute(array_merge([$leadChartStart->format('Y-m-d')], is_counselor() ? [$uid] : []));
@@ -152,7 +156,8 @@ if (is_counselor()) {
   $stmt->execute([$uid]);
   $myAdmissions = (int)$stmt->fetchColumn();
 
-  $stmt = $pdo->prepare("SELECT COUNT(*) FROM admissions WHERE counselor_id = ? AND admission_date >= DATE_FORMAT(CURDATE(), '%Y-%m-01')");
+  $monthStartExpression = DB_IS_POSTGRES ? "DATE_TRUNC('month', CURRENT_DATE)::date" : "DATE_FORMAT(CURDATE(), '%Y-%m-01')";
+  $stmt = $pdo->prepare("SELECT COUNT(*) FROM admissions WHERE counselor_id = ? AND admission_date >= $monthStartExpression");
   $stmt->execute([$uid]);
   $monthlyAdmissions = (int)$stmt->fetchColumn();
 
