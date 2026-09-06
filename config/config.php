@@ -10,7 +10,7 @@ define('DB_NAME', getenv('DB_NAME') ?: 'dmp_crm');
 define('DB_USER', getenv('DB_USER') ?: 'root');
 define('DB_PASS', getenv('DB_PASS') ?: '');
 define('DB_SSL_CA', getenv('DB_SSL_CA') ?: '');
-define('DB_DRIVER', strtolower(getenv('DB_DRIVER') ?: 'mysql'));
+define('DB_DRIVER', strtolower(getenv('DB_DRIVER') ?: (getenv('DB_HOST') ? 'pgsql' : 'mysql')));
 define('DB_IS_POSTGRES', DB_DRIVER === 'pgsql' || DB_DRIVER === 'postgres');
 
 // ---- App settings ----
