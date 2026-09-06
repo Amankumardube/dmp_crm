@@ -4,14 +4,16 @@
 // =====================================================
 
 // ---- Database settings (edit these for your server) ----
-define('DB_HOST', 'localhost');
-define('DB_NAME', 'dmp_crm');
-define('DB_USER', 'root');
-define('DB_PASS', '');
+define('DB_HOST', getenv('DB_HOST') ?: 'localhost');
+define('DB_PORT', getenv('DB_PORT') ?: '3306');
+define('DB_NAME', getenv('DB_NAME') ?: 'dmp_crm');
+define('DB_USER', getenv('DB_USER') ?: 'root');
+define('DB_PASS', getenv('DB_PASS') ?: '');
 
 // ---- App settings ----
 define('APP_NAME', 'DMP AI Digital Institute CRM');
 
+$configuredBaseUrl = rtrim(getenv('APP_URL') ?: '', '/');
 $httpProtocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') || ($_SERVER['SERVER_PORT'] ?? 80) == 443
     ? 'https://'
     : 'http://';
@@ -26,7 +28,7 @@ if ($documentRoot && $projectRoot) {
         $basePath = substr($projectRoot, strlen($documentRoot));
     }
 }
-define('BASE_URL', $httpProtocol . $host . $basePath);
+define('BASE_URL', $configuredBaseUrl ?: $httpProtocol . $host . $basePath);
 define('UPLOAD_DIR', __DIR__ . '/../uploads/');
 
 if (!is_dir(UPLOAD_DIR)) {
@@ -45,7 +47,7 @@ if (session_status() === PHP_SESSION_NONE) {
 // ---- Database connection (PDO) ----
 try {
     $pdo = new PDO(
-        "mysql:host=" . DB_HOST . ";dbname=" . DB_NAME . ";charset=utf8mb4",
+        "mysql:host=" . DB_HOST . ";port=" . DB_PORT . ";dbname=" . DB_NAME . ";charset=utf8mb4",
         DB_USER,
         DB_PASS,
         [

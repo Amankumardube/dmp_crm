@@ -1,0 +1,19 @@
+services:
+  - type: web
+    name: dmp-crm
+    runtime: docker
+    plan: free
+    healthCheckPath: /index.php
+    envVars:
+      - key: DB_HOST
+        sync: false
+      - key: DB_PORT
+        value: "3306"
+      - key: DB_NAME
+        sync: false
+      - key: DB_USER
+        sync: false
+      - key: DB_PASS
+        sync: false
+      - key: APP_URL
+        sync: false

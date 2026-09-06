@@ -50,6 +50,20 @@ A complete PHP + MySQL CRM for a digital marketing training institute:
 4. Make sure the `uploads/` folder is writable (`chmod 755` or `775`).
 5. (Recommended) Force HTTPS and set `ini_set('display_errors', 0);` in `config.php` for production.
 
+## 3a. Deploy on Render
+This repository includes a `Dockerfile` and `render.yaml` for Render's Docker web service. Create a Render Blueprint from the repository, then set these environment variables on the web service:
+
+```text
+DB_HOST=your-mysql-host
+DB_PORT=3306
+DB_NAME=dmp_crm
+DB_USER=your-mysql-user
+DB_PASS=your-mysql-password
+APP_URL=https://your-render-service.onrender.com
+```
+
+Render does not provide a built-in MySQL database. Use an external MySQL-compatible provider and import `database/schema.sql` before opening the app. The free web service filesystem is ephemeral, so configure persistent storage or external object storage if uploaded documents must survive redeploys.
+
 ## 4. First Steps After Login
 1. Go to **Courses** → add your actual courses, durations, and fees.
 2. Go to **Counselors** → add your team members (each gets their own login).
