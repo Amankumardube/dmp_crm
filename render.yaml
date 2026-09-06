@@ -15,5 +15,7 @@ services:
         sync: false
       - key: DB_PASS
         sync: false
+      - key: DB_SSL_CA
+        sync: false
       - key: APP_URL
         sync: false
